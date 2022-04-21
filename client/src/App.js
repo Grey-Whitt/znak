@@ -12,7 +12,7 @@ const App = () => {
       <main className='py-3'>
         <Container>
           <Routes>
-            <Route path='/' element={<HomeScreen />} />
+            <Route path='/znak' element={<HomeScreen />} />
           </Routes>
         </Container>
       </main>
