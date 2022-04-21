@@ -5,37 +5,31 @@ import { Button, Col, Row, Form, Container } from 'react-bootstrap'
 import Loader from './Loader'
 
 const Camera = () => {
-  // Set video parameters
-  const videoConstraints = {
-    width: 400,
-    height: 400,
-    facingMode: 'user', // will use front facing camera if on mobile
-    audio: false,
-  }
-
   // set webcamRef to null on render (useRef does not re render when updated whereas useEffect would)
   const webcamRef = useRef(null)
 
   // set initial state of imgSrc to null
   const [imgSrc, setImgSrc] = useState(null)
 
-  //set initial state of translation to empty string
+  // set initial state of translation to empty string
   const [translation, setTranslation] = useState('')
 
+  // set initial state of loading to true
+  const [loading, setLoading] = useState(true)
+
+  // set the imgSrc variable using the getScreenshot method which returns a base64 image
   const handleCapture = useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot()
-    setImgSrc(imageSrc)
+    setImgSrc(webcamRef.current.getScreenshot())
   }, [webcamRef, setImgSrc])
 
+  // send image to api
   const sendImage = async () => {
     try {
       const config = {
         headers: { 'Content-Type': 'application/json' },
       }
 
-      console.log(imgSrc)
-
-      await axios.post('/api/image', { image: imgSrc }, config)
+      //await axios.post('/api/image', { image: imgSrc }, config)
       setImgSrc(null)
     } catch (error) {
       setImgSrc(null)
@@ -43,15 +37,27 @@ const Camera = () => {
     }
   }
 
-  const submitHandler = (e) => {
+  // send english text to api to be translated
+  const translateHandler = async (e) => {
     e.preventDefault()
 
-    setTranslation('lorem ipsum dolor sit amet')
+    const { data } = await axios.post(
+      `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${process.env.REACT_APP_YANDEX_KEY}&text=${translation}&lang=en-ru&format=plain`
+    )
+
+    setTranslation(data.text[0])
   }
 
-  const [loading, setLoading] = useState(true)
+  // when camera loads, set loading to false after 200ms
+  const handleUserMedia = () => setTimeout(() => setLoading(false), 500)
 
-  const handleUserMedia = () => setTimeout(() => setLoading(false), 200)
+  // Set video parameters
+  const videoConstraints = {
+    width: 400,
+    height: 400,
+    facingMode: 'user', // will use front facing camera if on mobile
+    audio: false,
+  }
 
   return (
     <>
@@ -107,7 +113,7 @@ const Camera = () => {
                 videoConstraints={videoConstraints}
                 ref={webcamRef}
                 screenshotFormat='image/jpeg'
-                style={{ opacity: loading ? 0 : 1 }}
+                style={{ opacity: loading ? 0 : 1 }} // if loading = true set opacity to 0, if loading = false set opacity to 1
                 onUserMedia={handleUserMedia}
               />
             </>
@@ -117,9 +123,9 @@ const Camera = () => {
 
       <Row>
         <Col>
-          <Form onSubmit={(e) => submitHandler(e)}>
+          <Form onSubmit={(e) => translateHandler(e)}>
             <Container className='d-flex justify-content-center'>
-              {imgSrc && (
+              {translation && (
                 <>
                   <Button
                     variant='success'
@@ -136,8 +142,6 @@ const Camera = () => {
                     className='mx-2'
                     onClick={() => {
                       setTranslation('')
-                      setImgSrc(null)
-                      setLoading(true)
                     }}
                   >
                     Clear
@@ -151,10 +155,11 @@ const Camera = () => {
             >
               <Form.Label>Translation</Form.Label>
               <Form.Control
-                value={translation}
                 as='textarea'
                 rows={3}
-                disabled
+                type='text'
+                onChange={(event) => setTranslation(event.target.value)}
+                value={translation}
               />
             </Form.Group>
           </Form>
