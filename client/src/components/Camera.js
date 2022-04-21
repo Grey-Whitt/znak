@@ -1,24 +1,47 @@
 import React, { useRef, useState, useCallback } from 'react'
 import Webcam from 'react-webcam'
+import axios from 'axios'
 import { Button, Col, Row, Form, Container } from 'react-bootstrap'
 import Loader from './Loader'
 
 const Camera = () => {
+  // Set video parameters
   const videoConstraints = {
     width: 400,
     height: 400,
-    facingMode: 'user',
+    facingMode: 'user', // will use front facing camera if on mobile
     audio: false,
   }
 
+  // set webcamRef to null on render (useRef does not re render when updated whereas useEffect would)
   const webcamRef = useRef(null)
+
+  // set initial state of imgSrc to null
   const [imgSrc, setImgSrc] = useState(null)
+
+  //set initial state of translation to empty string
   const [translation, setTranslation] = useState('')
 
   const handleCapture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot()
-    setImgSrc(imageSrc.split(',')[1])
+    setImgSrc(imageSrc)
   }, [webcamRef, setImgSrc])
+
+  const sendImage = async () => {
+    try {
+      const config = {
+        headers: { 'Content-Type': 'application/json' },
+      }
+
+      console.log(imgSrc)
+
+      await axios.post('/api/image', { image: imgSrc }, config)
+      setImgSrc(null)
+    } catch (error) {
+      setImgSrc(null)
+      window.alert(error)
+    }
+  }
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -28,7 +51,7 @@ const Camera = () => {
 
   const [loading, setLoading] = useState(true)
 
-  const handleUserMedia = () => setTimeout(() => setLoading(false), 1_000)
+  const handleUserMedia = () => setTimeout(() => setLoading(false), 200)
 
   return (
     <>
@@ -54,6 +77,18 @@ const Camera = () => {
           >
             Retake
           </Button>
+
+          <Button
+            className='mx-2 py-2'
+            variant='info'
+            onClick={() => {
+              sendImage()
+              setLoading(true)
+            }}
+            disabled={!imgSrc}
+          >
+            Send Picture
+          </Button>
         </Col>
       </Row>
 
@@ -65,7 +100,7 @@ const Camera = () => {
         )}
         <Col md={12} className='mb-3 d-flex justify-content-center'>
           {imgSrc ? (
-            <img src={`data:image/jpeg;base64,${imgSrc}`} alt='alt' />
+            <img src={imgSrc} alt='alt' />
           ) : (
             <>
               <Webcam
