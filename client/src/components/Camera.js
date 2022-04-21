@@ -50,8 +50,8 @@ const Camera = () => {
 
   // Set video parameters
   const videoConstraints = {
-    width: 400,
-    height: 400,
+    width: 350,
+    height: 350,
     facingMode: 'user', // will use front facing camera if on mobile
     audio: false,
   }
@@ -110,6 +110,7 @@ const Camera = () => {
                 videoConstraints={videoConstraints}
                 ref={webcamRef}
                 screenshotFormat='image/jpeg'
+                mirrored={true}
                 style={{ opacity: loading ? 0 : 1 }} // if loading = true set opacity to 0, if loading = false set opacity to 1
                 onUserMedia={handleUserMedia}
               />
