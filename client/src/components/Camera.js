@@ -22,19 +22,16 @@ const Camera = () => {
     setImgSrc(webcamRef.current.getScreenshot())
   }, [webcamRef, setImgSrc])
 
-  // send image to api
-  const sendImage = async () => {
-    try {
-      const config = {
-        headers: { 'Content-Type': 'application/json' },
-      }
+  const [iteration, setIteration] = useState(0)
 
-      //await axios.post('/api/image', { image: imgSrc }, config)
-      setImgSrc(null)
-    } catch (error) {
-      setImgSrc(null)
-      window.alert(error)
-    }
+  const letters = ['d', 'o', 'b', 'g']
+
+  // send image to api
+  const sendImage = () => {
+    setTimeout(() => setTranslation(translation + letters[iteration]), 1_000)
+    setIteration(iteration + 1)
+    setImgSrc(null)
+    setLoading(true)
   }
 
   // send english text to api to be translated
@@ -142,9 +139,21 @@ const Camera = () => {
                     className='mx-2'
                     onClick={() => {
                       setTranslation('')
+                      setIteration(0)
                     }}
                   >
                     Clear
+                  </Button>
+
+                  <Button
+                    variant='secondary'
+                    size='lg'
+                    className='mx-2'
+                    onClick={() => {
+                      setTranslation(translation.slice(0, -1))
+                    }}
+                  >
+                    Backspace
                   </Button>
                 </>
               )}
