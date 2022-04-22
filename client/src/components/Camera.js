@@ -55,7 +55,7 @@ const Camera = () => {
     setTranslation(data.text[0])
   }
 
-  // when camera loads, set loading to false after 200ms
+  // when camera loads, set loading to false after 500ms
   const handleUserMedia = () => setTimeout(() => setLoading(false), 500)
 
   // Set video parameters
