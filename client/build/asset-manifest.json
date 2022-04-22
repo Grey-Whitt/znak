@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/znak/static/css/main.4ee6c5e7.css",
+    "main.js": "/znak/static/js/main.e04b7934.js",
+    "index.html": "/znak/index.html",
+    "main.4ee6c5e7.css.map": "/znak/static/css/main.4ee6c5e7.css.map",
+    "main.e04b7934.js.map": "/znak/static/js/main.e04b7934.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4ee6c5e7.css",
+    "static/js/main.e04b7934.js"
+  ]
+}

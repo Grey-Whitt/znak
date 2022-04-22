@@ -1,0 +1,24 @@
+{
+  "name": "znak",
+  "version": "1.0.0",
+  "description": "Ai based trasnlation tool for translating sing language to text, then to russian",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grey-Whitt/znak.git"
+  },
+  "author": "Grey Whittenberger + John Simmons",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Grey-Whitt/znak/issues"
+  },
+  "homepage": "https://github.com/Grey-Whitt/znak#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
