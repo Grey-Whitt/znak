@@ -120,6 +120,7 @@ const Camera = () => {
                 videoConstraints={videoConstraints}
                 ref={webcamRef}
                 screenshotFormat='image/jpeg'
+                mirrored={true}
                 style={{ opacity: loading ? 0 : 1 }} // if loading = true set opacity to 0, if loading = false set opacity to 1
                 onUserMedia={handleUserMedia}
               />
