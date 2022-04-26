@@ -21,7 +21,7 @@ This is a simple front end intended to interact with an ai developed by John Sim
 
 - [My Github Profile](https://github.com/Grey-Whitt)
 
-- [This Repository](https://github.com/Grey-Whitt/mern-tech-shop)
+- [This Repository](https://github.com/Grey-Whitt/znak)
 
 ## Examples
 
