@@ -2,8 +2,6 @@
 
 ## Description:
 
-![License](https://img.shields.io/badge/License-MIT-blue.svg 'License Badge')
-
 Znak is a AI translation tool that allows users to take pictures of themselves doing different ASL signs and have a Python based neural network API translate the picture to the corresponding letter of the alphabet. The user can then translate the english word to Cyrillic using the Yandex translation API. This simple front-end was built in React, and React Bootstrap. An Express server an React-Router v6 were setup so that this proof of concept may be expanded on in the future.  
 
 This project was a collaboartion between Grey Whittenberger (Front-end developer) and John Simmons (Python Developer) as a final project for John's bachelors degree. Unfortunately AI has been taken offline for the time being, as the data-set ended up using over 300gb of storage!
